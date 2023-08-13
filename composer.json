@@ -1,0 +1,29 @@
+{
+    "name": "jarivas/php-performance",
+    "version": "1.0",
+    "description": "It is a tool to measure CPU and Memory usage throught different stages of a process",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Jose A Rivas",
+        "email": "me@jarivas.work"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "Rivas\\": "src/",
+        "Rivas\\Tests\\": "tests/"
+      }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "jarivas/sql-models": "*",
+        "vimeo/psalm": "^5.4",
+        "phpmd/phpmd": "^2.13",
+        "phpstan/phpstan": "*",
+        "squizlabs/php_codesniffer": "3.*",
+        "symfony/var-dumper": "^6.2",
+        "jarivas/php-env": "^1.0"
+    }
+}
