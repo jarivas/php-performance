@@ -7,57 +7,71 @@ namespace Rivas;
 class PerformanceDataList
 {
 
-    /** @var Array<string, Array<PerformanceData>> */
+    /** @var Array<PerformanceData> */
     private array $list;
 
 
     public function __construct()
     {
-        $this->list = [];
+        $this->list = [new PerformanceData()];
 
     }//end __construct()
 
 
-    public function begin(string $key): void
+    public function snapshot(): void
     {
-        $this->list[$key] = [new PerformanceData()];
-
-    }//end begin()
-
-
-    public function snapshot(string $key): void
-    {
-        $this->list[$key][] = new PerformanceData();
+        $this->list[] = new PerformanceData();
 
     }//end snapshot()
 
 
-    /**
-     * Return the current list
-     * @return PerformanceData[]
-     */
-    public function get(string $key): array
+    public function getExecutionTime(): float
     {
-        return $this->list[$key];
+        return ($this->list[$this->getLastIndex()]->getTimeStamp() - $this->list[0]->getTimeStamp());
 
-    }//end get()
+    }//end getExecutionTime()
 
 
-    /**
-     * Adds last snapshop and return the list
-     * @return PerformanceData[]
-     */
-    public function end(string $key): array
+    public function getAverageExecutionTime(): float
     {
-        $this->snapshot($key);
+        return ($this->getExecutionTime() / $this->getLastIndex());
 
-        $dataList = $this->list[$key];
+    }//end getAverageExecutionTime()
 
-        unset($this->list[$key]);
 
-        return $dataList;
+    public function getMemoryUsage(): float
+    {
+        return ($this->list[$this->getLastIndex()]->getMemory() - $this->list[0]->getMemory());
 
-    }//end end()
+    }//end getMemoryUsage()
+
+
+    public function getAverageMemoryUsage(): float
+    {
+        return ($this->getMemoryUsage() / $this->getLastIndex());
+
+    }//end getAverageMemoryUsage()
+
+
+    public function getCpuUsage(): float
+    {
+        return ($this->list[$this->getLastIndex()]->getCpu() - $this->list[0]->getCpu());
+
+    }//end getCpuUsage()
+
+
+    public function getAverageCpuUsage(): float
+    {
+        return ($this->getCpuUsage() / $this->getLastIndex());
+
+    }//end getAverageCpuUsage()
+
+
+    private function getLastIndex(): int
+    {
+        return (count($this->list) - 1);
+
+    }//end getLastIndex()
 
 
 }//end class

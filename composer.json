@@ -1,6 +1,6 @@
 {
     "name": "jarivas/php-performance",
-    "version": "1.0",
+    "version": "1.5",
     "description": "It is a tool to measure CPU and Memory usage throught different stages of a process",
     "type": "library",
     "license": "MIT",

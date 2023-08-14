@@ -6,9 +6,9 @@
     <testsuites>
         <testsuite name="all">
             <directory suffix="Test.php">./tests</directory>
+            <logging>
+                <log type="coverage-html" target="build/reports"/>
+            </logging>
         </testsuite>
-    <logging>
-        <log type="coverage-html" target="build/reports"/>
-    </logging>
     </testsuites>
 </phpunit>
