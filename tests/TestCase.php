@@ -16,7 +16,7 @@ abstract class TestCase extends PHPUnitTestCase
     public static function generateModels(): void
     {
         $appDir       = dirname(__DIR__);
-        $host         = "$appDir/db/Sqlite";
+        $host         = "$appDir/db";
         $dbName       = 'chinook.db';
         $targetFolder = "$appDir/tests/Sqlite/Models";
         $generation   = new GenerationSqlite();

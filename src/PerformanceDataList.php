@@ -6,72 +6,94 @@ namespace Rivas;
 
 class PerformanceDataList
 {
+    use Uuid;
 
-    /** @var Array<PerformanceData> */
-    private array $list;
+    protected string $key;
+    /** @var PerformanceData[] */
+    protected array $list;
 
 
     public function __construct()
     {
-        $this->list = [new PerformanceData()];
+        $this->key = $this->generateUuidv4();
+
+        $this->list[$this->key] = new PerformanceData();
 
     }//end __construct()
 
 
-    public function snapshot(): void
+    public function snapshot(?string $point = null): void
     {
-        $this->list[] = new PerformanceData();
+        if ($point === null) {
+            $point = $this->generateUuidv4();
+        }
+
+        $this->list[$point] = new PerformanceData();
 
     }//end snapshot()
 
 
+    public function count(): int
+    {
+        return count($this->list);
+
+    }//end count()
+
+
     public function getExecutionTime(): float
     {
-        return ($this->list[$this->getLastIndex()]->getTimeStamp() - $this->list[0]->getTimeStamp());
+        return ($this->getLastItem()->getTimeStamp() - $this->getFistItem()->getTimeStamp());
 
     }//end getExecutionTime()
 
 
     public function getAverageExecutionTime(): float
     {
-        return ($this->getExecutionTime() / $this->getLastIndex());
+        return ($this->getExecutionTime() / $this->count());
 
     }//end getAverageExecutionTime()
 
 
     public function getMemoryUsage(): float
     {
-        return ($this->list[$this->getLastIndex()]->getMemory() - $this->list[0]->getMemory());
+        return ($this->getLastItem()->getMemory() - $this->getFistItem()->getMemory());
 
     }//end getMemoryUsage()
 
 
     public function getAverageMemoryUsage(): float
     {
-        return ($this->getMemoryUsage() / $this->getLastIndex());
+        return ($this->getMemoryUsage() / $this->count());
 
     }//end getAverageMemoryUsage()
 
 
     public function getCpuUsage(): float
     {
-        return ($this->list[$this->getLastIndex()]->getCpu() - $this->list[0]->getCpu());
+        return ($this->getLastItem()->getCpu() - $this->getFistItem()->getCpu());
 
     }//end getCpuUsage()
 
 
     public function getAverageCpuUsage(): float
     {
-        return ($this->getCpuUsage() / $this->getLastIndex());
+        return ($this->getCpuUsage() / $this->count());
 
     }//end getAverageCpuUsage()
 
-
-    private function getLastIndex(): int
+    protected function getFistItem(): PerformanceData
     {
-        return (count($this->list) - 1);
+        return $this->list[$this->key];
+    }//end getFistItem()
 
-    }//end getLastIndex()
 
+    protected function getLastItem(): PerformanceData
+    {
+        $keys = array_keys($this->list);
+
+        $last = end($keys);
+
+        return $this->list[$last];
+    }//end getLastItem()
 
 }//end class
